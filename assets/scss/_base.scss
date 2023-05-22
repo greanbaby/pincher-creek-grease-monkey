@@ -9,7 +9,7 @@ html {
 
 body {
   font-family: 'Raleway', sans-serif;
-  font-size: 1.6rem;
+  font-size: $font-med;
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
@@ -25,7 +25,8 @@ body {
 
 .linkout {
   font-weight: 700;
-  font-size: 2rem;
+  font-size: $font-big;
+  letter-spacing: 0.2rem;
 }
 // Flexbox grid
 .flex {

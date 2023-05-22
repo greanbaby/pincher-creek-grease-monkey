@@ -10,11 +10,12 @@
   }
 
   &__nav {  // Nav Links
-      
+      margin-bottom: 0.1rem;
+
       &-item {
         list-style: none;
         margin-bottom: 1rem;
-        font-size: 2rem;
+        font-size: $font-big;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.2rem;
