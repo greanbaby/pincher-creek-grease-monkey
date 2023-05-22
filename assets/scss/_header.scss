@@ -1,0 +1,29 @@
+.header {
+
+  margin-top: 2rem;
+
+  &___logo {  // top-left logo
+    img {
+      width: 100%;
+    }
+
+  }
+
+  &__toggle {  // mobile hamburger toggle
+
+    > span {  // hamburger toggle 3 span lines
+      display: block;
+      width: 3rem;
+      height: 3px;     
+      background-color: $darkBlue;
+
+      // set margin between each span line
+      // except the last one
+      &:not(:last-child) {
+        margin-bottom: 0.75rem;
+      }
+
+    }
+
+  }
+}

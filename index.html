@@ -11,19 +11,22 @@
 </head>
 <body>
   <!-- Site Header -->
-  <header>
-    <nav>
+  <header class="header container">
+
+    <!-- Site Navigation using Flexbox to keep all on one line -->
+    <nav class="flex flex--jc-sb flex--ai-c">
+
       <!-- Logo -->
-      <a 
-        href="/"
-        class="logo">
+      <a class="header__logo"
+        href="/">
         <img 
           src="assets/img/pc-logo.svg" 
           alt="Logo">
       </a>
 
       <!-- Hamburger Toggle -->
-      <a href="#" class="toggle">
+      <a class="header__toggle" 
+        href="#" >
         <span></span>
         <span></span>
         <span></span>

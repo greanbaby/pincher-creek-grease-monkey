@@ -15,3 +15,22 @@ body {
   background-color: #f5f5f5;
   line-height: 1.8;
 }
+
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+// Flexbox grid
+.flex {
+  display: flex;
+  
+  &--jc-sb {
+    justify-content: space-between;
+  }
+
+  &--ai-c {
+    align-items: center;
+  }
+}
