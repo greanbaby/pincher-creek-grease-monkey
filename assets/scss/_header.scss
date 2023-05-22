@@ -9,6 +9,32 @@
 
   }
 
+  &__nav {  // Nav Links
+      
+      &-item {
+        list-style: none;
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        transition: all 0.2s;
+        cursor: pointer;
+        padding-left: 2rem;
+
+        &:hover {
+          color: $medBlue;
+        }
+      }
+
+      &-link {
+        text-decoration: none;
+        color: inherit;
+      }
+  
+  }
+
+
   &__toggle {  // mobile hamburger toggle
 
     > span {  // hamburger toggle 3 span lines
