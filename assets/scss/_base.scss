@@ -42,9 +42,32 @@ h2 {
 }
 
 .linkout {
-  font-weight: 700;
-  font-size: $font-big;
-  letter-spacing: 0.2rem;
+  font-size: $font-sm;
+  letter-spacing: 0.3rem;
+}
+
+.download-zip {
+
+    &-btn {
+
+      background-image: linear-gradient(to right, $medBlue, $medYellow);
+      padding: 0.75rem 2.5rem;
+      border-radius: 2rem;
+      border: 0;
+      text-decoration: none;
+      color: $white;
+      font-size: $font-med;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 1rem 2rem rgba($black, 0.2);
+    }
 }
 
 // Flexbox grid
