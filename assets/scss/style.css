@@ -42,8 +42,9 @@ h2 {
 }
 
 .linkout {
-  font-size: 1.4rem;
-  letter-spacing: 0.3rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
 }
 
 .download-zip-btn {
@@ -59,7 +60,7 @@ h2 {
   transition: all 0.2s;
   cursor: pointer;
 }
-.download-zip:hover {
+.download-zip-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 }
