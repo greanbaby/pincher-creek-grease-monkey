@@ -1,3 +1,5 @@
-const dt = new Date();
-console.log('Pincher Creek Grease Monkey is running...' + dt.toISOString());
+const menuToggle = document.querySelector('#menu-toggle');
 
+menuToggle.addEventListener('click', function () {
+    menuToggle.classList.toggle('active');
+});

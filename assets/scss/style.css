@@ -131,14 +131,58 @@ h2 {
 .header__nav-link--active {
   color: #f7941d;
 }
-.header__toggle > span {
-  display: block;
-  width: 3rem;
-  height: 3px;
-  background-color: hsl(233, 26%, 24%);
+.header__toggle {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  height: 29px;
+  cursor: pointer;
 }
-.header__toggle > span:not(:last-child) {
-  margin-bottom: 0.75rem;
+.header__toggle span {
+  position: relative;
+  top: 12px;
+  margin: 0 auto;
+  -webkit-transition-duration: 0s;
+  -webkit-transition-delay: 150ms;
+}
+.header__toggle.active span {
+  background-color: transparent;
+  -webkit-transition-delay: 150ms;
+}
+.header__toggle span:before, .header__toggle span:after {
+  position: absolute;
+  content: "";
+}
+.header__toggle span, .header__toggle span:before, .header__toggle span:after {
+  display: block;
+  width: 30px;
+  height: 5px;
+  background-color: #555;
+  border-radius: 5px;
+}
+.header__toggle span:before {
+  margin-top: -10px;
+  -webkit-transition-property: margin, -webkit-transform, color;
+  -webkit-transition-duration: 150ms;
+  -webkit-transition-delay: 150ms, 0;
+}
+.header__toggle span:after {
+  margin-top: 10px;
+  -webkit-transition-property: margin, -webkit-transform, color;
+  -webkit-transition-duration: 150ms;
+  -webkit-transition-delay: 150ms, 0;
+}
+.header__toggle.active span:before {
+  margin-top: 0;
+  background-color: #000;
+  -webkit-transition-delay: 0, 150ms;
+  transform: rotate(45deg);
+}
+.header__toggle.active span:after {
+  margin-top: 0;
+  background-color: #000;
+  -webkit-transition-delay: 0, 150ms;
+  transform: rotate(-45deg);
 }
 .header__cta-btn {
   background-image: linear-gradient(to right, #0072c6, #f7941d);
