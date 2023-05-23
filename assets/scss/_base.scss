@@ -17,6 +17,24 @@ body {
   letter-spacing: 0.1rem;
 }
 
+h1 {
+  font-size: $font-big;
+  font-weight: 300;
+  color: $darkBlue;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: $font-med;
+  font-weight: 700;
+  color: $darkBlue;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-bottom: 2rem;
+}
+
 .container {
   max-width: 120rem;
   margin: 0 auto;

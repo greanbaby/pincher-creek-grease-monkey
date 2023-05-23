@@ -10,30 +10,50 @@
   }
 
   &__nav {  // Nav Links
-      margin-bottom: 0.1rem;
+    margin-bottom: 0.1rem;
 
-      &-item {
-        list-style: none;
-        margin-bottom: 1rem;
-        font-size: $font-big;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.2rem;
+    a {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        display: block;
+        height: 5px;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to right, $medBlue, $medYellow);
         transition: all 0.2s;
-        cursor: pointer;
-        padding-left: 3rem;
+      }
+    }
+    &-item {
+      list-style: none;
+      margin-bottom: 1rem;
+      font-size: $font-big;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      padding-left: 3rem;
+      color: $darkBlue;
 
-        &:hover {
-          color: $medBlue;
-        }
+      &:hover {
+        color: $medBlue;
+      }
+    }
+
+    &-link {
+      text-decoration: none;
+      color: inherit;
+
+      &--active {
+        color: $medYellow;
       }
 
-      &-link {
-        text-decoration: none;
-        color: inherit;
-      }
-  
+    }
   }
+  
 
   &__toggle {  // mobile hamburger toggle
 
