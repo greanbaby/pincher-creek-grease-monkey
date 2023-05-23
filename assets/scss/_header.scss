@@ -21,7 +21,7 @@
         letter-spacing: 0.2rem;
         transition: all 0.2s;
         cursor: pointer;
-        padding-left: 2rem;
+        padding-left: 3rem;
 
         &:hover {
           color: $medBlue;
@@ -34,7 +34,6 @@
       }
   
   }
-
 
   &__toggle {  // mobile hamburger toggle
 
@@ -53,4 +52,28 @@
     }
 
   }
+
+  &__cta {  // Call to Action button DOWNLOAD ZIP
+
+    &-btn {
+
+      background-image: linear-gradient(to right, $medBlue, $medYellow);
+      padding: 0.75rem 2.5rem;
+      border-radius: 2rem;
+      border: 0;
+      text-decoration: none;
+      color: $white;
+      font-size: $font-med;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 1rem 2rem rgba($black, 0.2);
+    }
+  }
+
 }

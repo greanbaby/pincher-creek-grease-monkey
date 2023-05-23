@@ -28,6 +28,7 @@ body {
   font-size: $font-big;
   letter-spacing: 0.2rem;
 }
+
 // Flexbox grid
 .flex {
   display: flex;
@@ -38,5 +39,18 @@ body {
 
   &--ai-c {
     align-items: center;
+  }
+}
+
+// Visiblity classes
+.hide-for-mobile {  // hide on mobile or tablet
+  @include breakpoint-down(medium) {
+    display: none;
+  }
+}
+
+.hide-for-desktop {  // hide on desktop viewport widths
+  @include breakpoint-up(large) {
+    display: none;
   }
 }
