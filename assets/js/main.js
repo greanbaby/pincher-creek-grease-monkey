@@ -18,3 +18,11 @@ for (i = 0; i < coll.length; i++) {
     }
   });
 }
+
+// CLOCK
+/* to set current time */
+const time = new Date(),
+  hour = -3600 * (time.getHours() % 12),
+  mins = -60 * time.getMinutes();
+app.style.setProperty('--_dm', `${mins}s`);
+app.style.setProperty('--_dh', `${(hour+mins)}s`);
