@@ -65,8 +65,23 @@
       transition: all 0.2s;
 
       &:not(:last-child) {
-        margin-bottom: 1rem;
+        margin-bottom: 8px;
       }
+    }
+
+    &.open {  // when this class is added, the hamburger menu will change to an X
+      > span {
+        &:nth-child(1) {
+          transform: rotate(45deg) translate(0.5rem, 0.75rem);
+        }
+        &:nth-child(2) {
+          opacity: 0;
+        }
+        &:nth-child(3) {
+          transform: rotate(-45deg) translate(0.5rem, -0.75rem);
+        }
+      }
+
     }
 
   }

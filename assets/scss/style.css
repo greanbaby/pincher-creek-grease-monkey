@@ -139,7 +139,16 @@ h2 {
   transition: all 0.2s;
 }
 .header__toggle > span:not(:last-child) {
-  margin-bottom: 1rem;
+  margin-bottom: 8px;
+}
+.header__toggle.open > span:nth-child(1) {
+  transform: rotate(45deg) translate(0.5rem, 0.75rem);
+}
+.header__toggle.open > span:nth-child(2) {
+  opacity: 0;
+}
+.header__toggle.open > span:nth-child(3) {
+  transform: rotate(-45deg) translate(0.5rem, -0.75rem);
 }
 .header__cta-btn {
   background-image: linear-gradient(to right, #0072c6, #f7941d);
