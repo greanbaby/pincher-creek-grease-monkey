@@ -1,0 +1,35 @@
+.collapsible-content {
+  display: none;
+}
+
+.collapsible-btn {
+  background-image: linear-gradient(to right, $medBlue, $medYellow);
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.collapsible-btn:focus {
+  outline: none;
+}
+
+.collapsible-btn:after {
+  content: '\002B';
+  float: right;
+}
+
+.collapsible-btn.active:after {
+  content: "\2212";
+}
+
+.collapsible-content.show {
+  display: block;
+}
