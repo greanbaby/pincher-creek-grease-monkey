@@ -54,65 +54,21 @@
     }
   }
   
+   
+  &__toggle {
 
-  &__toggle {  // mobile hamburger toggle
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
-    height: 29px;
-    cursor: pointer;
+    > span {
+      display: block;
+      width: 3rem;
+      height: 2px;
+      margin-bottom: 0.5rem;
+      background-color: $darkBlue;
+      transition: all 0.2s;
 
-    & span {
-        position: relative;
-        top: 12px;
-        margin: 0 auto;
-        -webkit-transition-duration: 0s;
-        -webkit-transition-delay: 150ms;
+      &:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
     }
-    &.active span {
-        background-color: transparent;
-        -webkit-transition-delay: 150ms;
-    }
-    & span:before,
-    & span:after {
-        position: absolute;
-        content: '';
-    }
-    & span,
-    & span:before,
-    & span:after {
-        display: block;
-        width: 30px;
-        height: 5px;
-        background-color: #555;
-        border-radius: 5px;
-    }
-    & span:before {
-        margin-top: -10px;
-        -webkit-transition-property: margin, -webkit-transform, color;
-        -webkit-transition-duration: 150ms;
-        -webkit-transition-delay: 150ms, 0;
-    }
-    & span:after {
-        margin-top: 10px;
-        -webkit-transition-property: margin, -webkit-transform, color;
-        -webkit-transition-duration: 150ms;
-        -webkit-transition-delay: 150ms, 0;
-    }
-    &.active span:before {
-        margin-top: 0;
-        background-color: #000;
-        -webkit-transition-delay: 0, 150ms;
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-    &.active span:after {
-        margin-top: 0;
-        background-color: #000;
-        -webkit-transition-delay: 0, 150ms;
-        -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
-  }
 
   }
 
