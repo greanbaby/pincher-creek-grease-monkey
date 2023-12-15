@@ -102,7 +102,7 @@
 
       <!-- FIT Test Prevention Button code display -->
       <div class="collapsible">
-        <button class="collapsible-btn">FIT Test Prevention Button.user.js</button>
+        <button class="collapsible-btn">LABS_ALL.user.js</button>
         <div class="collapsible-content">
           <pre><code>
 // ==UserScript==
@@ -110,7 +110,7 @@
 // @namespace ScottyG
 // @description Add button for lab preview 
 // @include  *dms/inboxManage.do* 
-// @version  0.3
+// @version  0.4
 // @grant    none
 // ==/UserScript==
 
@@ -120,7 +120,6 @@
 
 // GLOBALS: 
 const button = document.createElement( 'button' ),
-    LINEBREAKER = '<br> <br>',
     origin = window.location.origin,
     labsOpened = [],
     juno = "/juno"
@@ -171,15 +170,14 @@ function labOpenAll() {
     }
 
     let divhtml = "",
-        divElement = null,
-        foundDiv = false
+        divElement = null
 
     for ( let i = 0; i < field2.length; i++ ) {
         if ( field2[i].tagName === "DIV" ) {
             divhtml = field2[ i ].innerHTML
             if ( divhtml.indexOf( "Version:" ) !== -1 ) {
         
-                // alert( "L A B   V E R S I O N S   D E T E C T E D" );
+                // alert( "L A B   V E R S I O N S   D E T E C T E D" )
 
                 divElement = field2[ i ]
                 const aElements = divElement.getElementsByTagName( "a" )
