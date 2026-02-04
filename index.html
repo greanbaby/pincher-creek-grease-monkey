@@ -485,6 +485,275 @@ function initApplication() {
 
 
 
+      <!-- SIGNATURE INSERTION code display -->
+      <div class="collapsible">
+        <button class="collapsible-btn">SIGNATURE-INSERTION.user.js</button>
+        <div class="collapsible-content">
+          <pre><code>
+            // ==UserScript==
+// @name         Signature Selector for The Associate Clinic
+// @namespace    ScottyG
+// @version      1.0.0
+// @description  Adds a dropdown to insert mapped signature images
+// @author       Scott Gingras
+// @match        */*/eform/efmformadd_data.jsp?fid=1*
+// @run-at       document-idle
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  /**
+   * -----------------------------
+   * CONFIG: Map Names -> imagefile
+   * -----------------------------
+   * Add or edit entries here. Keys are labels shown in the UI, values are the
+   * file names passed to displayImage.do?imagefile=...
+   *
+   * NOTE: Keep clinician names only (no patient identifiers—FOIP).
+   */
+  const SIGNATURE_MAP = {
+    "Ashley Rommens":  "doctor_signature_1006.png",
+    "Bev Burton":      "doctor_signature_10016.png",
+    "Gavin Parker":    "doctor_signature_1002.png",
+    "Jared Van Bussel": "doctor_signature_1005.png",
+    "Kunmi Joshua Akarakiri": "doctor_signature_104.png",
+    "Tracy Burton":    "doctor_signature_1004.png",
+    "Yuby Ikem":      "doctor_signature_141.png",
+    "Scott Gingras":   "doctor_signature_10233.png",
+
+    // "Another Clinician": "doctor_signature_10xxx.png",
+  };
+
+  /**
+   * Optional: If your app needs to grab additional text to append after the <img>,
+   * set the selector here. If not needed, leave as null.
+   * In your original snippet you referenced #current_user_signature.
+   */
+  const OPTIONAL_APPEND_SELECTOR = null; // "#current_user_signature" or null
+
+  /**
+   * Where to inject the UI. If unsure, try a header toolbar above the editor.
+   * You can change this to a more precise container on your page.
+   */
+  const INJECTION_TARGET_SELECTORS = [
+    // try a toolbar or header above the editor if available:
+    ".editor-toolbar, .toolbar, header, .controls",
+    // fallback to body if nothing else is found:
+    "body"
+  ];
+
+  /**
+   * Utility: Wait for a condition (element/function) to exist before proceeding.
+   */
+  function waitFor(checkFn, { interval = 150, timeout = 10000 } = {}) {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        try {
+          const val = checkFn();
+          if (val) {
+            clearInterval(timer);
+            resolve(val);
+          } else if (Date.now() - start > timeout) {
+            clearInterval(timer);
+            reject(new Error("waitFor: timeout"));
+          }
+        } catch (e) {
+          clearInterval(timer);
+          reject(e);
+        }
+      }, interval);
+    });
+  }
+
+  /**
+   * Build the HTML we will inject via doHtml()
+   * Example result:
+   *   <img id="signature" src="../eform/displayImage.do?imagefile=doctor_signature_10233.png"><p>
+   * Optionally appends text from OPTIONAL_APPEND_SELECTOR if present and non-empty.
+   */
+  function buildSignatureHtml(imageFile) {
+    const baseSrc = `../eform/displayImage.do?imagefile=${encodeURIComponent(imageFile)}`;
+    const img = `<img id="signature" src="${baseSrc}">`;
+    const p = `<p></p>`; // empty paragraph to keep cursor-friendly spacing
+
+    let appendText = "";
+    if (OPTIONAL_APPEND_SELECTOR) {
+      const el = document.querySelector(OPTIONAL_APPEND_SELECTOR);
+      if (el) {
+        const val = (el.value ?? el.textContent ?? "").trim();
+        if (val) {
+          // Escape HTML special chars to avoid injecting raw HTML
+          const safe = val
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+          appendText = `<span>${safe}</span>`;
+        }
+      }
+    }
+    return `${img}${p}${appendText}`;
+  }
+
+  /**
+   * Try to find a good injection point on the page.
+   */
+  function findInjectionTarget() {
+    for (const sel of INJECTION_TARGET_SELECTORS) {
+      const el = document.querySelector(sel);
+      if (el) return el;
+    }
+    return document.body;
+  }
+
+  /**
+   * Create the UI: <select> + Insert button.
+   * Also inserts on change (event-driven), so the button is optional for mouse/power users.
+   */
+  function createUi(onInsert) {
+    const wrapper = document.createElement("div");
+    wrapper.id = "signature-selector-wrapper";
+    wrapper.style.display = "flex";
+    wrapper.style.gap = "0.5rem";
+    wrapper.style.alignItems = "center";
+    wrapper.style.flexWrap = "wrap";
+    wrapper.style.margin = "0.5rem 0";
+
+    // help dark mode; use Bootstrap classes if present
+    wrapper.className = "d-flex align-items-center flex-wrap gap-2";
+
+    const label = document.createElement("label");
+    label.textContent = "Signature:";
+    label.setAttribute("for", "signature-select");
+    label.style.marginRight = "0.25rem";
+
+    const select = document.createElement("select");
+    select.id = "signature-select";
+    select.className = "form-select form-select-sm"; // BS5-friendly
+    select.style.width = "auto";
+
+    // Placeholder option
+    const optPlaceholder = document.createElement("option");
+    optPlaceholder.value = "";
+    optPlaceholder.textContent = "Choose…";
+    optPlaceholder.disabled = true;
+    optPlaceholder.selected = true;
+    select.appendChild(optPlaceholder);
+
+    // Populate from SIGNATURE_MAP
+    Object.entries(SIGNATURE_MAP).forEach(([name, file]) => {
+      const opt = document.createElement("option");
+      opt.value = file;
+      opt.textContent = name;
+      select.appendChild(opt);
+    });
+
+    // Insert button (optional—change event will also insert)
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "Insert Sig";
+    btn.className = "btn btn-sm btn-primary";
+
+    // Do NOT insert on change — users only want insertion on button press.
+	// We keep the event only to clear validation errors and allow UI feedback.
+	select.addEventListener("change", () => {
+	  select.classList.remove("is-invalid");
+	});
+
+    // Insert on click
+    btn.addEventListener("click", () => {
+      const imageFile = select.value;
+      if (!imageFile) {
+        // small UX nudge
+        select.classList.add("is-invalid");
+        setTimeout(() => select.classList.remove("is-invalid"), 800);
+        return;
+      }
+      onInsert(imageFile);
+    });
+
+    // Keyboard shortcut: Alt+S opens the dropdown (focus)
+    document.addEventListener("keydown", (e) => {
+      if (e.altKey && (e.key === "s" || e.key === "S")) {
+        select.focus();
+        e.preventDefault();
+      }
+    });
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(select);
+    wrapper.appendChild(btn);
+
+    // Minimal dark-mode-friendly styles
+    const style = document.createElement("style");
+    style.textContent = `
+      #signature-selector-wrapper select.form-select {
+        min-width: 14rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        #signature-selector-wrapper {
+          color: #e0e0e0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    return wrapper;
+  }
+
+  /**
+   * MAIN
+   */
+  (async function init() {
+    try {
+      // Wait for the page’s doHtml function to exist
+      await waitFor(() => typeof window.doHtml === "function");
+
+      const target = findInjectionTarget();
+      const ui = createUi((imageFile) => {
+        const html = buildSignatureHtml(imageFile);
+        // Call the existing page function
+        window.doHtml(html);
+      });
+
+      // Insert near top of the target
+      target.insertBefore(ui, target.firstChild);
+
+      // Optional: if you prefer a compact UI, you can toggle visibility with a small button:
+      // (uncomment to add)
+      /*
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.textContent = 'Signatures';
+      toggle.className = 'btn btn-sm btn-outline-secondary';
+      toggle.addEventListener('click', () => ui.classList.toggle('d-none'));
+      target.insertBefore(toggle, ui);
+      */
+
+      // BONUS: if your editor loads dynamically later, observe and re-attach if removed
+      const mo = new MutationObserver(() => {
+        if (!document.contains(ui)) {
+          const newTarget = findInjectionTarget();
+          newTarget.insertBefore(ui, newTarget.firstChild);
+        }
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+    } catch (err) {
+      console.error("[Signature Selector] Failed to initialize:", err);
+    }
+  })();
+})();
+          </code></pre>
+        </div>
+      </div>
+      <!-- END SIGNATURE INSERTION code display -->
+
+
+
 
       <!-- Report_Preview_Expander.user.js code display -->
       <div class="collapsible">
