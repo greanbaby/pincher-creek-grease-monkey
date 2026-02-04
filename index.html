@@ -618,10 +618,10 @@ function initApplication() {
     const wrapper = document.createElement("div");
     wrapper.id = "signature-selector-wrapper";
     wrapper.style.display = "flex";
-    wrapper.style.gap = "0.5rem";
+    wrapper.style.gap = "0.25rem";
     wrapper.style.alignItems = "center";
     wrapper.style.flexWrap = "wrap";
-    wrapper.style.margin = "0.5rem 0";
+    wrapper.style.margin = "0.25rem 0";
 
     // help dark mode; use Bootstrap classes if present
     wrapper.className = "d-flex align-items-center flex-wrap gap-2";
@@ -629,7 +629,7 @@ function initApplication() {
     const label = document.createElement("label");
     label.textContent = "Signature:";
     label.setAttribute("for", "signature-select");
-    label.style.marginRight = "0.25rem";
+    label.style.marginRight = "0.1rem";
 
     const select = document.createElement("select");
     select.id = "signature-select";
@@ -692,7 +692,7 @@ function initApplication() {
     const style = document.createElement("style");
     style.textContent = `
       #signature-selector-wrapper select.form-select {
-        min-width: 14rem;
+        min-width: 11rem;
       }
       @media (prefers-color-scheme: dark) {
         #signature-selector-wrapper {
